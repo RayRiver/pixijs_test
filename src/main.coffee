@@ -20,7 +20,7 @@ resources = [
 # require process
 require_process = (scripts, i) ->
   if i == scripts.length
-    main_process()
+    load_resource_process()
     return
   script = scripts[i]
   ++i
@@ -28,6 +28,12 @@ require_process = (scripts, i) ->
     require_process scripts, i
 
 require_process scripts, 0
+
+# load resource process
+load_resource_process = ->
+  PIXI.loader
+    .add("res/bunny.png")
+    .load(main_process)
 
 # main process
 main_process = ->

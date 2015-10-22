@@ -8,10 +8,9 @@
     extend(EntryScene, superClass);
 
     function EntryScene() {
-      var bunny, texture;
+      var bunny;
       EntryScene.__super__.constructor.apply(this, arguments);
-      texture = PIXI.Texture.fromImage('res/bunny.png');
-      bunny = new PIXI.Sprite(texture);
+      bunny = new PIXI.Sprite(PIXI.loader.resources["res/bunny.png"].texture);
       bunny.anchor.x = 0.5;
       bunny.anchor.y = 0.5;
       bunny.position.x = 200;
