@@ -8,20 +8,64 @@
     extend(EntryScene, superClass);
 
     function EntryScene() {
-      var bunny;
+      var block, key_down, key_left, key_right, key_up, player, speed;
       EntryScene.__super__.constructor.apply(this, arguments);
-      bunny = new PIXI.Sprite(PIXI.loader.resources["res/bunny.png"].texture);
-      bunny.anchor.x = 0.5;
-      bunny.anchor.y = 0.5;
-      bunny.position.x = 200;
-      bunny.position.y = 150;
-      this.addChildRenderer(bunny);
-      this._bunny = bunny;
+      this._world = new utils.BumpWorld();
+      block = new Block({
+        world: this._world,
+        dynamic: true,
+        width: 40,
+        height: 40
+      });
+      block.setPosition(100, 100);
+      this.addChild(block);
+      player = new Player({
+        world: this._world,
+        dynamic: true,
+        width: 50,
+        height: 50
+      });
+      player.setPosition(40, 40);
+      this.addChild(player);
+      this._player = player;
+      speed = 200;
+      key_up = utils.InputManager.registerKey(87);
+      key_up.press = function() {
+        return player.setVelocity(null, -speed);
+      };
+      key_up.release = function() {
+        return player.setVelocity(null, 0);
+      };
+      key_down = utils.InputManager.registerKey(83);
+      key_down.press = function() {
+        return player.setVelocity(null, speed);
+      };
+      key_down.release = function() {
+        return player.setVelocity(null, 0);
+      };
+      key_left = utils.InputManager.registerKey(65);
+      key_left.press = function() {
+        return player.setVelocity(-speed, null);
+      };
+      key_left.release = function() {
+        return player.setVelocity(0, null);
+      };
+      key_right = utils.InputManager.registerKey(68);
+      key_right.press = function() {
+        return player.setVelocity(speed, null);
+      };
+      key_right.release = function() {
+        return player.setVelocity(0, null);
+      };
     }
 
     EntryScene.prototype.update = function(dt) {
+      var renderer;
       EntryScene.__super__.update.apply(this, arguments);
-      return this._bunny.rotation += 0.1;
+      this._player.update(dt);
+      renderer = this.getRenderer;
+      this._world.collide(0, 0, 500, 500);
+      return this._player.updatePosition();
     };
 
     return EntryScene;

@@ -10,6 +10,8 @@
 
   global.components = {};
 
+  global.resources = {};
+
 }).call(this);
 
 //# sourceMappingURL=init.js.map

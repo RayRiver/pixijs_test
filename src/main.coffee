@@ -1,21 +1,33 @@
 
 # require scripts
 scripts = [
-  "engine/pixi.js"
+  "engine/pixi"
 
-  "init.js"
+  "init"
 
-  "utils/scene_manager.js"
-  "utils/scene_base.js"
+  "lib/functions"
+  "lib/bump"
 
-  "scenes/entry_scene.js"
+  "utils/input_manager"
+  "utils/scene_manager"
+  "utils/scene_base"
+  "utils/game_object"
+  "utils/entity_base"
+  "utils/bump_world"
+
+  "objects/player"
+  "objects/block"
+
+  "scenes/entry_scene"
 
 ]
 
 # resources
-resources = [
-
-]
+resource_map = {
+  bunny: "res/bunny.png"
+  block: "res/block.png"
+  player: "res/player.png"
+}
 
 # require process
 require_process = (scripts, i) ->
@@ -24,16 +36,17 @@ require_process = (scripts, i) ->
     return
   script = scripts[i]
   ++i
-  requirejs ["src/" + script], ->
+  requirejs ["src/" + script + ".js"], ->
     require_process scripts, i
 
 require_process scripts, 0
 
 # load resource process
 load_resource_process = ->
-  PIXI.loader
-    .add("res/bunny.png")
-    .load(main_process)
+  for name, path of resource_map
+    PIXI.loader.add(name, path)
+    resources[name] = PIXI.loader.resources[name]
+  PIXI.loader.load(main_process)
 
 # main process
 main_process = ->
