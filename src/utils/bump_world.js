@@ -25,6 +25,10 @@
       tag2 = item2.getTag();
       if (tag1 === "Player" && tag2 === "Block") {
         return true;
+      } else if (tag1 === "Enemy" && tag2 === "Block") {
+        return true;
+      } else if (tag1 === "Player" && tag2 === "Enemy") {
+        return true;
       } else {
         return false;
       }

@@ -11,6 +11,10 @@ class BumpWorld extends lib.Bump
     tag2 = item2.getTag()
     if tag1 == "Player" and tag2 == "Block"
       true
+    else if tag1 == "Enemy" and tag2 == "Block"
+      true
+    else if tag1 == "Player" and tag2 == "Enemy"
+      true
     else
       false
 

@@ -2,7 +2,7 @@
 (function() {
   var load_resource_process, main_process, require_process, resource_map, scripts;
 
-  scripts = ["engine/pixi", "init", "lib/functions", "lib/bump", "utils/input_manager", "utils/scene_manager", "utils/scene_base", "utils/game_object", "utils/entity_base", "utils/bump_world", "objects/player", "objects/block", "scenes/entry_scene"];
+  scripts = ["engine/pixi", "init", "lib/functions", "lib/bump", "utils/input_manager", "utils/scene_manager", "utils/scene_base", "utils/game_object", "utils/entity_base", "utils/bump_world", "objects/player", "objects/enemy", "objects/block", "scenes/entry_scene"];
 
   resource_map = {
     bunny: "res/bunny.png",

@@ -52,6 +52,17 @@ class EntryScene extends utils.SceneBase
     @addChild(player)
     @_player = player
 
+    # create enemy
+    enemy = new Enemy({
+      world: @_world
+      dynamic: true
+      width: 32
+      height: 32
+    })
+    enemy.setPosition(400, 400)
+    @addChild(enemy)
+    @_enemy = enemy
+
     # keyboard input
     Input = utils.Input
     Input.registerArrowKey(Input.KEY_W, "up")
@@ -66,14 +77,27 @@ class EntryScene extends utils.SceneBase
     horizontal = Input.getAxis("Horizontal")
     vertical = Input.getAxis("Vertical")
 
-    speed = 20000
-    @_player.setVelocity(horizontal * speed * dt, vertical * speed * dt)
-
+    speed = 200
+    @_player.setVelocity(horizontal * speed, vertical * speed)
     @_player.update(dt)
+
+    # simple enemy ai
+    [player_x, player_y] = @_player.getPosition()
+    [enemy_x, enemy_y] = @_enemy.getPosition()
+    dx = player_x - enemy_x
+    dy = player_y - enemy_y
+    n = Math.sqrt(dx * dx + dy * dy)
+    speed = 100
+    vx = dx / n * speed
+    vy = dy / n * speed
+    @_enemy.setVelocity(vx, vy)
+    @_enemy.update(dt)
+
 
     @_world.collide(0, 0, utils.renderer.width, utils.renderer.height)
 
     @_player.updatePosition()
+    @_enemy.updatePosition()
 
     [player_x, player_y] = @_player.getPosition()
 

@@ -8,7 +8,7 @@
     extend(EntryScene, superClass);
 
     function EntryScene() {
-      var Input, block, edge, edge_border, edge_dynamic, player, size, world;
+      var Input, block, edge, edge_border, edge_dynamic, enemy, player, size, world;
       EntryScene.__super__.constructor.apply(this, arguments);
       this._world = new utils.BumpWorld();
       size = {
@@ -67,6 +67,15 @@
       player.setPosition(100, 100);
       this.addChild(player);
       this._player = player;
+      enemy = new Enemy({
+        world: this._world,
+        dynamic: true,
+        width: 32,
+        height: 32
+      });
+      enemy.setPosition(400, 400);
+      this.addChild(enemy);
+      this._enemy = enemy;
       Input = utils.Input;
       Input.registerArrowKey(Input.KEY_W, "up");
       Input.registerArrowKey(Input.KEY_S, "down");
@@ -75,17 +84,28 @@
     }
 
     EntryScene.prototype.update = function(dt) {
-      var Input, dx, dy, horizontal, player_x, player_y, ref, renderer, speed, target_x, target_y, vertical, x, y;
+      var Input, dx, dy, enemy_x, enemy_y, horizontal, n, player_x, player_y, ref, ref1, ref2, renderer, speed, target_x, target_y, vertical, vx, vy, x, y;
       EntryScene.__super__.update.apply(this, arguments);
       Input = utils.Input;
       horizontal = Input.getAxis("Horizontal");
       vertical = Input.getAxis("Vertical");
-      speed = 20000;
-      this._player.setVelocity(horizontal * speed * dt, vertical * speed * dt);
+      speed = 200;
+      this._player.setVelocity(horizontal * speed, vertical * speed);
       this._player.update(dt);
+      ref = this._player.getPosition(), player_x = ref[0], player_y = ref[1];
+      ref1 = this._enemy.getPosition(), enemy_x = ref1[0], enemy_y = ref1[1];
+      dx = player_x - enemy_x;
+      dy = player_y - enemy_y;
+      n = Math.sqrt(dx * dx + dy * dy);
+      speed = 100;
+      vx = dx / n * speed;
+      vy = dy / n * speed;
+      this._enemy.setVelocity(vx, vy);
+      this._enemy.update(dt);
       this._world.collide(0, 0, utils.renderer.width, utils.renderer.height);
       this._player.updatePosition();
-      ref = this._player.getPosition(), player_x = ref[0], player_y = ref[1];
+      this._enemy.updatePosition();
+      ref2 = this._player.getPosition(), player_x = ref2[0], player_y = ref2[1];
       renderer = this.getRenderer();
       x = renderer.x;
       y = renderer.y;

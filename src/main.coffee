@@ -16,6 +16,7 @@ scripts = [
   "utils/bump_world"
 
   "objects/player"
+  "objects/enemy"
   "objects/block"
 
   "scenes/entry_scene"
