@@ -8,6 +8,23 @@
     return console.log.apply(console, arguments);
   };
 
+  Math.lerp = function(min, max, p) {
+    lib.assert(min <= max);
+    lib.assert(p >= 0 && p <= 1);
+    return min + (max - min) * p;
+  };
+
+  Math.clamp = function(val, min, max) {
+    lib.assert(min <= max);
+    if (val < min) {
+      return min;
+    } else if (val > max) {
+      return max;
+    } else {
+      return val;
+    }
+  };
+
 }).call(this);
 
 //# sourceMappingURL=functions.js.map

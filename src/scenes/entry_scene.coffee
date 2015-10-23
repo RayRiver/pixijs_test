@@ -7,8 +7,8 @@ class EntryScene extends utils.SceneBase
 
 
     size =
-      width: 800
-      height: 600
+      width: utils.renderer.width
+      height: utils.renderer.height
 
     # create edges
     edge_border = 10
@@ -71,14 +71,21 @@ class EntryScene extends utils.SceneBase
 
     @_player.update(dt)
 
-    @_world.collide(0, 0, 800, 600) # todo
+    @_world.collide(0, 0, utils.renderer.width, utils.renderer.height)
 
     @_player.updatePosition()
 
-    [x, y] = @_player.getPosition()
+    [player_x, player_y] = @_player.getPosition()
 
+    # smooth camera move
     renderer = @getRenderer()
-    renderer.x = -x+400
-    renderer.y = -y+300
+    x = renderer.x
+    y = renderer.y
+    target_x = -player_x + utils.renderer.width/2
+    target_y = -player_y + utils.renderer.height/2
+    dx = Math.lerp(0, target_x - x, 0.1)
+    dy = Math.lerp(0, target_y - y, 0.1)
+    renderer.x += dx
+    renderer.y += dy
 
 (exports ? this).EntryScene = EntryScene

@@ -40,6 +40,7 @@
     var animate, current_t, renderer;
     renderer = PIXI.autoDetectRenderer(800, 600);
     document.body.appendChild(renderer.view);
+    utils.renderer = renderer;
     utils.SceneManager.enterScene("EntryScene");
     current_t = 0;
     animate = function(t) {

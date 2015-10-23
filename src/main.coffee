@@ -54,6 +54,8 @@ main_process = ->
   renderer = PIXI.autoDetectRenderer(800, 600)#, {backgroundColor: 0x1099bb})
   document.body.appendChild(renderer.view)
 
+  utils.renderer = renderer
+
   utils.SceneManager.enterScene("EntryScene")
 
   current_t = 0

@@ -12,8 +12,8 @@
       EntryScene.__super__.constructor.apply(this, arguments);
       this._world = new utils.BumpWorld();
       size = {
-        width: 800,
-        height: 600
+        width: utils.renderer.width,
+        height: utils.renderer.height
       };
       edge_border = 10;
       edge_dynamic = true;
@@ -75,7 +75,7 @@
     }
 
     EntryScene.prototype.update = function(dt) {
-      var Input, horizontal, ref, renderer, speed, vertical, x, y;
+      var Input, dx, dy, horizontal, player_x, player_y, ref, renderer, speed, target_x, target_y, vertical, x, y;
       EntryScene.__super__.update.apply(this, arguments);
       Input = utils.Input;
       horizontal = Input.getAxis("Horizontal");
@@ -83,12 +83,18 @@
       speed = 20000;
       this._player.setVelocity(horizontal * speed * dt, vertical * speed * dt);
       this._player.update(dt);
-      this._world.collide(0, 0, 800, 600);
+      this._world.collide(0, 0, utils.renderer.width, utils.renderer.height);
       this._player.updatePosition();
-      ref = this._player.getPosition(), x = ref[0], y = ref[1];
+      ref = this._player.getPosition(), player_x = ref[0], player_y = ref[1];
       renderer = this.getRenderer();
-      renderer.x = -x + 400;
-      return renderer.y = -y + 300;
+      x = renderer.x;
+      y = renderer.y;
+      target_x = -player_x + utils.renderer.width / 2;
+      target_y = -player_y + utils.renderer.height / 2;
+      dx = Math.lerp(0, target_x - x, 0.1);
+      dy = Math.lerp(0, target_y - y, 0.1);
+      renderer.x += dx;
+      return renderer.y += dy;
     };
 
     return EntryScene;
