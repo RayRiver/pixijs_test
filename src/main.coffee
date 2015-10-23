@@ -27,6 +27,7 @@ resource_map = {
   bunny: "res/bunny.png"
   block: "res/block.png"
   player: "res/player.png"
+  enemy: "res/enemy.png"
 }
 
 # require process
@@ -50,7 +51,7 @@ load_resource_process = ->
 
 # main process
 main_process = ->
-  renderer = PIXI.autoDetectRenderer(400, 300)#, {backgroundColor: 0x1099bb})
+  renderer = PIXI.autoDetectRenderer(800, 600)#, {backgroundColor: 0x1099bb})
   document.body.appendChild(renderer.view)
 
   utils.SceneManager.enterScene("EntryScene")

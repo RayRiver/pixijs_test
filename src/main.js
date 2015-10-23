@@ -7,7 +7,8 @@
   resource_map = {
     bunny: "res/bunny.png",
     block: "res/block.png",
-    player: "res/player.png"
+    player: "res/player.png",
+    enemy: "res/enemy.png"
   };
 
   require_process = function(scripts, i) {
@@ -37,7 +38,7 @@
 
   main_process = function() {
     var animate, current_t, renderer;
-    renderer = PIXI.autoDetectRenderer(400, 300);
+    renderer = PIXI.autoDetectRenderer(800, 600);
     document.body.appendChild(renderer.view);
     utils.SceneManager.enterScene("EntryScene");
     current_t = 0;

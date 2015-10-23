@@ -13,14 +13,11 @@
 
     BumpWorld.prototype.collision = function(item1, item2, dx, dy) {
       var ref, x, y;
-      lib.log("collision " + dx + ", " + dy);
       ref = item1.getDesiredPos(), x = ref[0], y = ref[1];
       return item1.setDesiredPos(x + dx, y + dy);
     };
 
-    BumpWorld.prototype.endCollision = function(item1, item2) {
-      return lib.log("end collision");
-    };
+    BumpWorld.prototype.endCollision = function(item1, item2) {};
 
     BumpWorld.prototype.shouldCollide = function(item1, item2) {
       var tag1, tag2;

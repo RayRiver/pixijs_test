@@ -8,64 +8,87 @@
     extend(EntryScene, superClass);
 
     function EntryScene() {
-      var block, key_down, key_left, key_right, key_up, player, speed;
+      var Input, block, edge, edge_border, edge_dynamic, player, size, world;
       EntryScene.__super__.constructor.apply(this, arguments);
       this._world = new utils.BumpWorld();
+      size = {
+        width: 800,
+        height: 600
+      };
+      edge_border = 10;
+      edge_dynamic = true;
+      world = this._world;
+      edge = new Block({
+        world: world,
+        dynamic: edge_dynamic,
+        width: edge_border,
+        height: size.height
+      });
+      edge.setPosition(edge_border / 2, size.height / 2);
+      this.addChild(edge);
+      edge = new Block({
+        world: world,
+        dynamic: edge_dynamic,
+        width: edge_border,
+        height: size.height
+      });
+      edge.setPosition(size.width - edge_border / 2, size.height / 2);
+      this.addChild(edge);
+      edge = new Block({
+        world: world,
+        dynamic: edge_dynamic,
+        width: size.width - 2 * edge_border,
+        height: edge_border
+      });
+      edge.setPosition(size.width / 2, edge_border / 2);
+      this.addChild(edge);
+      edge = new Block({
+        world: world,
+        dynamic: edge_dynamic,
+        width: size.width - 2 * edge_border,
+        height: edge_border
+      });
+      edge.setPosition(size.width / 2, size.height - edge_border / 2);
+      this.addChild(edge);
       block = new Block({
         world: this._world,
         dynamic: true,
         width: 40,
         height: 40
       });
-      block.setPosition(100, 100);
+      block.setPosition(300, 300);
       this.addChild(block);
       player = new Player({
         world: this._world,
         dynamic: true,
-        width: 50,
-        height: 50
+        width: 32,
+        height: 32
       });
-      player.setPosition(40, 40);
+      player.setPosition(100, 100);
       this.addChild(player);
       this._player = player;
-      speed = 200;
-      key_up = utils.InputManager.registerKey(87);
-      key_up.press = function() {
-        return player.setVelocity(null, -speed);
-      };
-      key_up.release = function() {
-        return player.setVelocity(null, 0);
-      };
-      key_down = utils.InputManager.registerKey(83);
-      key_down.press = function() {
-        return player.setVelocity(null, speed);
-      };
-      key_down.release = function() {
-        return player.setVelocity(null, 0);
-      };
-      key_left = utils.InputManager.registerKey(65);
-      key_left.press = function() {
-        return player.setVelocity(-speed, null);
-      };
-      key_left.release = function() {
-        return player.setVelocity(0, null);
-      };
-      key_right = utils.InputManager.registerKey(68);
-      key_right.press = function() {
-        return player.setVelocity(speed, null);
-      };
-      key_right.release = function() {
-        return player.setVelocity(0, null);
-      };
+      Input = utils.Input;
+      Input.registerArrowKey(Input.KEY_W, "up");
+      Input.registerArrowKey(Input.KEY_S, "down");
+      Input.registerArrowKey(Input.KEY_A, "left");
+      Input.registerArrowKey(Input.KEY_D, "right");
     }
 
     EntryScene.prototype.update = function(dt) {
-      var renderer;
+      var Input, horizontal, ref, renderer, speed, vertical, x, y;
       EntryScene.__super__.update.apply(this, arguments);
+      Input = utils.Input;
+      horizontal = Input.getAxis("Horizontal");
+      vertical = Input.getAxis("Vertical");
+      speed = 20000;
+      this._player.setVelocity(horizontal * speed * dt, vertical * speed * dt);
       this._player.update(dt);
-      renderer = this.getRenderer;
-      this._world.collide(0, 0, 500, 500);
-      return this._player.updatePosition();
+      this._world.collide(0, 0, 800, 600);
+      this._player.updatePosition();
+      ref = this._player.getPosition(), x = ref[0], y = ref[1];
+      renderer = this.getRenderer();
+      renderer.x = -x + 400;
+      return renderer.y = -y + 300;
     };
 
     return EntryScene;

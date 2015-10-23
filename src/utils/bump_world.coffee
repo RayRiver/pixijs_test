@@ -1,12 +1,10 @@
 
 class BumpWorld extends lib.Bump
   collision: (item1, item2, dx, dy) ->
-    lib.log("collision " + dx + ", " + dy)
     [x, y] = item1.getDesiredPos()
     item1.setDesiredPos(x + dx, y + dy)
 
   endCollision: (item1, item2) ->
-    lib.log("end collision")
 
   shouldCollide: (item1, item2) ->
     tag1 = item1.getTag()
