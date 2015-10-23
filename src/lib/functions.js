@@ -8,20 +8,32 @@
     return console.log.apply(console, arguments);
   };
 
-  Math.lerp = function(min, max, p) {
-    lib.assert(min <= max);
-    lib.assert(p >= 0 && p <= 1);
-    return min + (max - min) * p;
+  Math.clamp = function(v, a, b) {
+    if (a <= b) {
+      if (v < a) {
+        return a;
+      } else if (v > b) {
+        return b;
+      } else {
+        return v;
+      }
+    } else {
+      if (v < b) {
+        return b;
+      } else if (v > a) {
+        return a;
+      } else {
+        return v;
+      }
+    }
   };
 
-  Math.clamp = function(val, min, max) {
-    lib.assert(min <= max);
-    if (val < min) {
-      return min;
-    } else if (val > max) {
-      return max;
+  Math.lerp = function(a, b, p) {
+    p = Math.clamp(p, 0, 1);
+    if (a <= b) {
+      return a + (b - a) * p;
     } else {
-      return val;
+      return b + (a - b) * (1 - p);
     }
   };
 
